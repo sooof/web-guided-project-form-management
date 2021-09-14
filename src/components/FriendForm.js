@@ -68,6 +68,10 @@ export default function FriendForm(props) {
           </select>
         </label>
 
+        <input type="date" name="datetime"/>
+        <input type="color" />
+        <input type="range" />
+
         <div className='submit'>
           <button>submit</button>
         </div>

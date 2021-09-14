@@ -18,6 +18,8 @@ export default function App() {
   // 🔥 STEP 1 - WE NEED STATE TO HOLD ALL VALUES OF THE FORM!
   const [formValues, setFormValues] = useState(initialFormValues); // fix this using the state hook
 
+  const [error, setError] = useState("");
+
   const updateForm = (inputName, inputValue) => {
     // 🔥 STEP 8 - IMPLEMENT a "form state updater" which will be used inside the inputs' `onChange` handler
     //  It takes in the name of an input and its value, and updates `formValues`
@@ -33,17 +35,25 @@ export default function App() {
       role: formValues.role
     }
     //  b) prevent further action if either username or email or role is empty string after trimming
-    if (!newFriend.username || !newFriend.email || !newFriend.role) {
-      return;
+    if (!newFriend.username) {
+      setError("You must enter an username, ya chump!");
+    } else if (!newFriend.email) {
+      setError("You must enter an email, ya chump!");
+    } else if (!newFriend.role) {
+      setError("You must enter a role, ya chump!");
+    } else {
+      setError("");
     }
     //  c) POST new friend to backend, and on success update the list of friends in state with the new friend from API
-    axios.post('fakeapi.com', newFriend)
-      .then(resp => {
-        const friendFromDb = resp.data;
-        setFriends([friendFromDb, ...friends]);
-        //  d) also on success clear the form
-        setFormValues(initialFormValues);
-      })
+    if (!error) {
+      axios.post('fakeapi.com', newFriend)
+        .then(resp => {
+          const friendFromDb = resp.data;
+          setFriends([friendFromDb, ...friends]);
+          //  d) also on success clear the form
+          setFormValues(initialFormValues);
+        })
+    }
   }
 
   useEffect(() => {
@@ -54,6 +64,7 @@ export default function App() {
     <div className='container'>
       <h1>Form App</h1>
 
+      {error && <h2 className="error-text">{error}</h2>}
       <FriendForm
         // 🔥 STEP 2 - The form component needs its props.
         //  Check implementation of FriendForm
