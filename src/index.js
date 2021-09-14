@@ -11,7 +11,17 @@ const petsList = [
 ]
 
 function SimpleForm() {
-  return <div>Ready to start GP!</div>
+  return (
+    <div className="container">
+      <h1>Simple Form App</h1>
+
+      {petsList.map((pet, idx) => (
+        <div key={idx}>
+          {pet.petName} is a {pet.petType}
+        </div>
+      ))}
+    </div>
+  )
 }
 
 render(
