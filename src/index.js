@@ -14,6 +14,7 @@ const initialFormValues = { petName: "", petType: "" }
 
 function SimpleForm() {
   const [formValues, setFormValues] = useState(initialFormValues);
+  const [pets, setPets] = useState(petsList);
 
   const change = (evt) => {
     const { name, value } = evt.target;
@@ -22,15 +23,27 @@ function SimpleForm() {
     setFormValues({ ...formValues, [name]: value });
   }
 
+  const submit = (evt) => {
+    evt.preventDefault();
+
+    const newPet = {
+      petName: formValues.petName.trim(),
+      petType: formValues.petType.trim()
+    }
+
+    setPets(pets.concat(newPet));
+    setFormValues(initialFormValues);
+  }
+
   return (
     <div className="container">
       <h1>Simple Form App</h1>
-      {petsList.map((pet, idx) => (
+      {pets.map((pet, idx) => (
         <div key={idx}>
           {pet.petName} is a {pet.petType}
         </div>
       ))}
-      <form>
+      <form onSubmit={submit}>
         <input
           type="text"
           value={formValues.petType}
