@@ -18,9 +18,6 @@ function SimpleForm() {
 
   const change = (evt) =>{
     const {name, value} = evt.target;
-    // Spreads the formValues key value pairs into a new object,
-    // then updates the [name] (variable coming from evt.target)
-    // to value, coming from evt.target.
     setFormValues({...formValues, [name]:value})
   }
     /**
@@ -34,17 +31,6 @@ function SimpleForm() {
   // const changePetType = (evt) => {
   //   setFormValues({ petName: formValues.petName, petType: evt.target.value});
   // }
-  const submit = (evt) => {
-    evt.preventDefault();
-
-    const newPet = {
-      petName: formValues.petName.trim(),
-      petType: formValues.petType.trim()
-    }
-    setPets(pets.concat(newPet));
-    setFormValues(initialFormValues);
-  }
-
 
   return (
     <div className='container'>
@@ -57,7 +43,7 @@ function SimpleForm() {
         )
       )}
       
-      <form  onSubmit={submit} >
+      <form >
         <input 
           type="text"
           name="petName"
@@ -81,7 +67,7 @@ function SimpleForm() {
 render(
   <>
     <SimpleForm />
-    <App />
+    {/* <App /> */}
   </>
   , document.querySelector('#root')
 )
